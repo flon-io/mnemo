@@ -28,45 +28,44 @@
 #define _POSIX_C_SOURCE 200809L
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "mnemo.h"
 
 
+// source (see misc/gen.c)
+//
+//static char *fmne_syls[] = {
+//  "a",  "e",  "i",  "o",  "u",
+//  "ka", "ke", "ki", "ko", "ku",
+//  "sa", "se", "si", "so", "su",
+//  "ta", "te", "ti", "to", "tu",
+//  "na", "ne", "ni", "no", "nu",
+//  "ha", "he", "hi", "ho", "fu",
+//  "ma", "me", "mi", "mo", "mu",
+//  "ya",             "yo", "yu",
+//  "ra", "re", "ri", "ro", "ru",
+//  "wa", "we",
+//  "ga", "ge", "gi", "go", "gu",
+//  "za", "ze",       "zo", "zu",
+//  "da", "de", "di", "do", "du",
+//  "ba", "be", "bi", "bo", "bu",
+//  "pa", "pe", "pi", "po", "pu",
+//  "ja", "je", "ji", "jo", "ju",
+//  "n"
+//};
+
 static char *fmne_syls[] = {
-  "a",  "e",  "i",  "o",  "u",
-  "ka", "ke", "ki", "ko", "ku",
-  "sa", "se", "si", "so", "su",
-  "ta", "te", "ti", "to", "tu",
-  "na", "ne", "ni", "no", "nu",
-  "ha", "he", "hi", "ho", "fu",
-  "ma", "me", "mi", "mo", "mu",
-  "ya",             "yo", "yu",
-  "ra", "re", "ri", "ro", "ru",
-  "wa", "we",
-  "ga", "ge", "gi", "go", "gu",
-  "za", "ze",       "zo", "zu",
-  "da", "de", "di", "do", "du",
-  "ba", "be", "bi", "bo", "bu",
-  "pa", "pe", "pi", "po", "pu",
-  "ja", "je", "ji", "jo", "ju",
-  "n"
+  "a", "ba", "be", "bi", "bo", "bu", "da", "de", "di", "do", "du", "e", "fu",
+  "ga", "ge", "gi", "go", "gu", "ha", "he", "hi", "ho", "i", "ja", "je", "ji",
+  "jo", "ju", "ka", "ke", "ki", "ko", "ku", "ma", "me", "mi", "mo", "mu", "n",
+  "na", "ne", "ni", "no", "nu", "o", "pa", "pe", "pi", "po", "pu", "ra", "re",
+  "ri", "ro", "ru", "sa", "se", "si", "so", "su", "ta", "te", "ti", "to", "tu",
+  "u", "wa", "we", "ya", "yo", "yu", "za", "ze", "zo", "zu"
 };
-static char *fmne_neg = "wi";
 static size_t fmne_syl_count = 75;
-static int fmne_ready = 0;
 
-static int fmne_strcmp(const void *a, const void *b)
-{
-  return strcmp(*(const char **)a, *(const char **)b);
-}
+static char *fmne_neg = "wi";
 
-static void fmne_init()
-{
-  fmne_ready = 1;
-  qsort(fmne_syls, fmne_syl_count, sizeof(char *), fmne_strcmp);
-}
 
 static void fmne_tos(long long i, FILE *f)
 {
@@ -78,8 +77,6 @@ static void fmne_tos(long long i, FILE *f)
 
 char *fmne_to_s(long long i)
 {
-  if ( ! fmne_ready) fmne_init();
-
   char *s = NULL;
   size_t l = 0;
   FILE *f = open_memstream(&s, &l);

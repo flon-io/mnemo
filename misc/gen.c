@@ -44,7 +44,7 @@ int main()
   printf("static char *fmne_syls[] = {");
   for (size_t i = 0; i < count; ++i)
   {
-    if (i % 19 == 0) printf("\n  ");
+    if (i % 13 == 0) printf("\n  ");
     printf("\"%s\"", syls[i]);
     if (i < count - 1) printf(", ");
   }
