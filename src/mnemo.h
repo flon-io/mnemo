@@ -28,5 +28,20 @@
 #ifndef FLON_MNEMO_H
 #define FLON_MNEMO_H
 
+
+char *fmne_to_s(long long i);
+
+// The result type for mne_tol()
+//
+// error if err != 0,
+// result if err == 0
+//
+typedef struct {
+  int err;
+  long long result;
+} fmne_toi_result;
+
+fmne_toi_result fmne_to_i(char *s);
+
 #endif // FLON_MNEMO_H
 

@@ -27,7 +27,69 @@
 
 #define _POSIX_C_SOURCE 200809L
 
-//#include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mnemo.h"
+
+
+static char *fmne_syls[] = {
+  "a",  "e",  "i",  "o",  "u",
+  "ka", "ke", "ki", "ko", "ku",
+  "sa", "se", "si", "so", "su",
+  "ta", "te", "ti", "to", "tu",
+  "na", "ne", "ni", "no", "nu",
+  "ha", "he", "hi", "ho", "fu",
+  "ma", "me", "mi", "mo", "mu",
+  "ya",             "yo", "yu",
+  "ra", "re", "ri", "ro", "ru",
+  "wa", "we",
+  "ga", "ge", "gi", "go", "gu",
+  "za", "ze",       "zo", "zu",
+  "da", "de", "di", "do", "du",
+  "ba", "be", "bi", "bo", "bu",
+  "pa", "pe", "pi", "po", "pu",
+  "ja", "je", "ji", "jo", "ju",
+  "n"
+};
+static char *fmne_neg = "wi";
+static size_t fmne_syl_count = 75;
+static int fmne_ready = 0;
+
+static int fmne_strcmp(const void *a, const void *b)
+{
+  return strcmp(*(const char **)a, *(const char **)b);
+}
+
+static void fmne_init()
+{
+  fmne_ready = 1;
+  qsort(fmne_syls, fmne_syl_count, sizeof(char *), fmne_strcmp);
+}
+
+static void fmne_tos(long long i, FILE *f)
+{
+  long long mod = i % fmne_syl_count;
+  long long rst = i / fmne_syl_count;
+  if (rst > 0) fmne_tos(rst, f);
+  fputs(fmne_syls[mod], f);
+}
+
+char *fmne_to_s(long long i)
+{
+  if ( ! fmne_ready) fmne_init();
+
+  char *s = NULL;
+  size_t l = 0;
+  FILE *f = open_memstream(&s, &l);
+
+  if (i < 0) { fputs(fmne_neg, f); i = i * -1; }
+
+  fmne_tos(i, f);
+
+  fclose(f);
+
+  return s;
+}
 
