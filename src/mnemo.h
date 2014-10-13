@@ -42,6 +42,7 @@ typedef struct {
 } fmne_toi_result;
 
 fmne_toi_result fmne_to_i(char *s);
+fmne_toi_result fmne_extract_i(char *s);
 
 #endif // FLON_MNEMO_H
 

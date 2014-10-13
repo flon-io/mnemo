@@ -28,6 +28,7 @@
 #define _POSIX_C_SOURCE 200809L
 
 #include <stdio.h>
+#include <string.h>
 
 #include "mnemo.h"
 
@@ -64,6 +65,16 @@ static char *fmne_syls[] = {
 };
 static size_t fmne_syl_count = 75;
 
+static char *fmne_syls_n[] = {
+  "a", "ba", "be", "bi", "bo", "bu", "da", "de", "di", "do", "du", "e", "fu",
+  "ga", "ge", "gi", "go", "gu", "ha", "he", "hi", "ho", "i", "ja", "je", "ji",
+  "jo", "ju", "ka", "ke", "ki", "ko", "ku", "ma", "me", "mi", "mo", "mu", "**",
+  "na", "ne", "ni", "no", "nu", "o", "pa", "pe", "pi", "po", "pu", "ra", "re",
+  "ri", "ro", "ru", "sa", "se", "si", "so", "su", "ta", "te", "ti", "to", "tu",
+  "u", "wa", "we", "ya", "yo", "yu", "za", "ze", "zo", "zu",
+  "n"
+};
+
 static char *fmne_neg = "wi";
 
 
@@ -88,5 +99,38 @@ char *fmne_to_s(long long i)
   fclose(f);
 
   return s;
+}
+
+fmne_toi_result fmne_to_i(char *s)
+{
+  fmne_toi_result r = { 0, 0 };
+
+  int sign = 1; if (strncmp(s, "wi", 2) == 0) { sign = -1; s = s + 2; }
+
+  while (1)
+  {
+    if (r.err || *s == '\0') break;
+
+    for (size_t i = 0; i < fmne_syl_count + 1; ++i)
+    {
+      char *syl = fmne_syls_n[i];
+      size_t l = strlen(syl);
+
+      if (strncmp(s, syl, l) == 0)
+      {
+        s = s + l;
+        r.result = fmne_syl_count * r.result + i;
+        break;
+      }
+
+      if (i == fmne_syl_count) { r.err = 1; r.result = 0; }
+    }
+  }
+
+  r.result = sign * r.result;
+
+  //printf("r.err: %i, r.result: %lli\n", r.err, r.result);
+
+  return r;
 }
 

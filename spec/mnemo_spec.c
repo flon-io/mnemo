@@ -39,6 +39,8 @@ context "mnemo"
       expect(fmne_to_s(0) ===f "a");
       expect(fmne_to_s(1) ===f "ba");
       expect(fmne_to_s(101) ===f "bajo");
+      expect(fmne_to_s(392406) ===f "yosida");
+      expect(fmne_to_s(25437225) ===f "taifun");
     }
 
     it "turns negative integers to mnemo strings"
@@ -51,7 +53,39 @@ context "mnemo"
   describe "fmne_to_i()"
   {
     it "rejects strings that are not mnemo strings"
+    {
+      expect(fmne_to_i("blah blah blah").err == 1);
+      expect(fmne_to_i("blah blah blah").result == 0);
+
+      expect(fmne_to_i("wibawiba").err == 1);
+      expect(fmne_to_i("wibawiba").result == 0);
+    }
+
     it "turns mnemo strings to integers"
+    {
+      expect(fmne_to_i("yosida").err == 0);
+      expect(fmne_to_i("yosida").result == 392406);
+
+      expect(fmne_to_i("bajo").err == 0);
+      expect(fmne_to_i("bajo").result == 101);
+      expect(fmne_to_i("wibaji").err == 0);
+      expect(fmne_to_i("wibaji").result == -100);
+
+      expect(fmne_to_i("taifun").err == 0);
+      expect(fmne_to_i("taifun").result == 25437225);
+    }
+  }
+
+  describe "fmne_is_mnemo()"
+  {
+    it "returns 1 if the string is a mnemo string"
+    it "returns 0 else"
+  }
+
+  describe "fmne_extract_i()"
+  {
+    it "returns a result, given a starting point"
+    it "returns a result with .err == 1 else"
   }
 }
 
