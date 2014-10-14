@@ -113,11 +113,5 @@ context "mnemo"
       expect(fmne_is_mnemo("blah blah blah") == 0);
     }
   }
-
-  describe "fmne_extract_i()"
-  {
-    it "returns a result, given a starting point"
-    it "returns a result with .err == 1 else"
-  }
 }
 
