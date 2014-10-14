@@ -104,7 +104,14 @@ context "mnemo"
   describe "fmne_is_mnemo()"
   {
     it "returns 1 if the string is a mnemo string"
+    {
+      expect(fmne_is_mnemo("tonkatsu") == 1);
+    }
+
     it "returns 0 else"
+    {
+      expect(fmne_is_mnemo("blah blah blah") == 0);
+    }
   }
 
   describe "fmne_extract_i()"

@@ -112,3 +112,8 @@ fmne_toi_result fmne_to_i(char *s)
   return r;
 }
 
+int fmne_is_mnemo(char *s)
+{
+  return (fmne_to_i(s).err == 0);
+}
+
