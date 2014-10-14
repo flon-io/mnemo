@@ -67,7 +67,7 @@ context "mnemo"
     //  }
     //}
 
-    it "goes back and forth"
+    it "goes from string to long and back"
     {
       char *s = NULL;
       long long l = 0;
@@ -84,8 +84,22 @@ context "mnemo"
       l = fmne_to_i(s).result;
       expect(fmne_to_s(l) ===f s);
     }
-  }
 
+    it "goes from long to string and back"
+    {
+      char *s = NULL;
+      int err = 0;
+
+      for (long l = -1001; l < 1001; ++l)
+      {
+        s = fmne_to_s(l);
+        if (fmne_to_i(s).result != l) err = 1;
+        free(s);
+      }
+
+      expect(err == 0);
+    }
+  }
 
   describe "fmne_is_mnemo()"
   {
