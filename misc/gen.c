@@ -7,26 +7,24 @@
 
 
 char *syls[] = {
-  "a",  "e",  "i",  "o",  "u",
-  "ka", "ke", "ki", "ko", "ku",
-  "sa", "se", "si", "so", "su",
-  "ta", "te", "ti", "to", "tu",
-  "na", "ne", "ni", "no", "nu",
-  "ha", "he", "hi", "ho", "fu",
-  "ma", "me", "mi", "mo", "mu",
-  "ya",             "yo", "yu",
-  "ra", "re", "ri", "ro", "ru",
-  "wa", "we",
-  "ga", "ge", "gi", "go", "gu",
-  "za", "ze",       "zo", "zu",
-  "da", "de", "di", "do", "du",
-  "ba", "be", "bi", "bo", "bu",
-  "pa", "pe", "pi", "po", "pu",
-  "ja", "je", "ji", "jo", "ju",
-  "n"
+  "a",  "i",   "u",   "e",   "o",
+  "ka", "ki",  "ku",  "ke",  "ko",  "kya", "kyu", "kyo",
+  "sa", "shi", "su",  "se",  "so",  "sha", "shu", "sho",
+  "ta", "chi", "tsu", "te",  "to",  "cha", "chu", "cho",
+  "na", "ni",  "nu",  "ne",  "no",  "nya", "nyu", "nyo",
+  "ha", "hi",  "fu",  "he",  "ho",  "hya", "hyu", "hyo",
+  "ma", "mi",  "mu",  "me",  "mo",  "mya", "myu", "myo",
+  "ya",        "yu",         "yo",
+  "ra", "ri",  "ru",  "re",  "ro",  "rya", "ryu", "ryo",
+  "wa",
+  "ga", "gi",  "gu",  "ge",  "go",  "gya", "gyu", "gyo",
+  "za", "ji",  "zu",  "ze",  "zo",
+  "da",               "de",  "do",  "ja",  "ju",  "jo",
+  "ba", "bi",  "bu",  "be",  "bo",  "bya", "byu", "byo",
+  "pa", "pi",  "pu",  "pe",  "po",  "pya", "pyu", "pyo",
+  "n",
 };
 //static char *fmne_neg = "wi";
-//static size_t fmne_syl_count = 75;
 
 static int _strcmp(const void *a, const void *b)
 {
@@ -42,14 +40,27 @@ int main()
 
   printf("\n");
   printf("static char *fmne_syls[] = {");
+  size_t n = 0;
   for (size_t i = 0; i < count; ++i)
   {
-    if (i % 13 == 0) printf("\n  ");
+    if (i % 12 == 0) printf("\n  ");
     printf("\"%s\"", syls[i]);
     if (i < count - 1) printf(", ");
+
+    if (strcmp(syls[i], "n") == 0) n = i;
   }
   printf("\n};\n");
+  printf("static char *fmne_syls_n[] = {");
+  for (size_t i = 0; i < count; ++i)
+  {
+    if (i % 12 == 0) printf("\n  ");
+    if (strcmp(syls[i], "n") == 0) printf("\"*\", ");
+    else printf("\"%s\", ", syls[i]);
+  }
+  printf("\"n\"\n};\n");
+
   printf("static size_t fmne_syl_count = %zu;\n", count);
+  printf("static size_t fmne_n = %zu;\n", n);
   printf("\n");
 }
 

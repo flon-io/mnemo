@@ -12,23 +12,35 @@ context "mnemo"
 {
   describe "mnemo"
   {
-    it "orders the syllables"
+    it "goes in alphabetical order"
     {
-      char *s = calloc(512, sizeof(char));
-      char *ss = s;
-      for (size_t i = 0; i < 75; ++i)
+      for (long i = -2; i < 280; ++i)
       {
-        char *m = fmne_to_s(i);
-        strcpy(ss, m);
-        ss = ss + strlen(m);
-        strcpy(ss++, " ");
+        printf("%5li: %7s\n", i, fmne_to_s(i));
       }
+    }
 
-      expect(s ===f ""
-        "a ba be bi bo bu da de di do du e fu ga ge gi go gu ha he hi ho "
-        "i ja je ji jo ju ka ke ki ko ku ma me mi mo mu n na ne ni no nu "
-        "o pa pe pi po pu ra re ri ro ru sa se si so su ta te ti to tu "
-        "u wa we ya yo yu za ze zo zu ");
+    it "goes in alphabetical order"
+    {
+      size_t i;
+      size_t n = 100000;
+
+      char *s0 = fmne_to_s(0);
+      char *s1 = NULL;
+
+      for (i = 1; i < n; ++i)
+      {
+        s1 = fmne_to_s(i);
+        //printf("i: %zu, s0: '%s', s1: '%s' (%i)\n", i, s0, s1, strcmp(s0, s1));
+        if (strcmp(s0, s1) >= 0) break;
+        free(s0);
+        s0 = s1;
+        s1 = NULL;
+      }
+      free(s0);
+      free(s1);
+
+      expect(i == n);
     }
   }
 
@@ -40,7 +52,7 @@ context "mnemo"
       expect(fmne_to_s(1) ===f "ba");
       expect(fmne_to_s(101) ===f "bajo");
       expect(fmne_to_s(392406) ===f "yosida");
-      expect(fmne_to_s(25437225) ===f "taifun");
+      expect(fmne_to_s(25437225) ===f "tonkatsu");
     }
 
     it "turns negative integers to mnemo strings"
@@ -71,8 +83,8 @@ context "mnemo"
       expect(fmne_to_i("wibaji").err == 0);
       expect(fmne_to_i("wibaji").result == -100);
 
-      expect(fmne_to_i("taifun").err == 0);
-      expect(fmne_to_i("taifun").result == 25437225);
+      expect(fmne_to_i("tonkatsu").err == 0);
+      expect(fmne_to_i("tonkatsu").result == 25437225);
     }
   }
 
