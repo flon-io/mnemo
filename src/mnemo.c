@@ -34,29 +34,24 @@
 
 
 static char *fmne_syls[] = {
-  "a", "ba", "be", "bi", "bo", "bu", "bya", "byo", "byu", "cha", "chi", "cho",
-  "chu", "da", "de", "do", "e", "fu", "ga", "ge", "gi", "go", "gu", "gya",
-  "gyo", "gyu", "ha", "he", "hi", "ho", "hya", "hyo", "hyu", "i", "ja", "ji",
-  "jo", "ju", "ka", "ke", "ki", "ko", "ku", "kya", "kyo", "kyu", "ma", "me",
-  "mi", "mo", "mu", "mya", "myo", "myu", "n", "na", "ne", "ni", "no", "nu",
-  "nya", "nyo", "nyu", "o", "pa", "pe", "pi", "po", "pu", "pya", "pyo", "pyu",
-  "ra", "re", "ri", "ro", "ru", "rya", "ryo", "ryu", "sa", "se", "sha", "shi",
-  "sho", "shu", "so", "su", "ta", "te", "to", "tsu", "u", "wa", "ya", "yo",
-  "yu", "za", "ze", "zo", "zu"
+  "a",  "i",   "u",   "e",   "o",
+  "ka", "ki",  "ku",  "ke",  "ko",  "kya", "kyu", "kyo",
+  "sa", "shi", "su",  "se",  "so",  "sha", "shu", "sho",
+  "ta", "chi", "tsu", "te",  "to",  "cha", "chu", "cho",
+  "na", "ni",  "nu",  "ne",  "no",  "nya", "nyu", "nyo",
+  "ha", "hi",  "fu",  "he",  "ho",//"hya", "hyu", "hyo",
+  "ma", "mi",  "mu",  "me",  "mo",  "mya", "myu", "myo",
+  "ya",        "yu",  "ye",  "yo",
+  "ra", "ri",  "ru",  "re",  "ro",  "rya", "ryu", "ryo",
+  "wa",
+  "ga", "gi",  "gu",  "ge",  "go",  "gya", "gyu", "gyo",
+  "za", "ji",  "zu",  "ze",  "zo",
+  "da",        "dzu", "de",  "do",  "ja",  "ju",  "jo",
+  "ba", "bi",  "bu",  "be",  "bo",  "bya", "byu", "byo",
+  "pa", "pi",  "pu",  "pe",  "po",  "pya", "pyu", "pyo",
+  "n",
 };
-static char *fmne_syls_n[] = {
-  "a", "ba", "be", "bi", "bo", "bu", "bya", "byo", "byu", "cha", "chi", "cho",
-  "chu", "da", "de", "do", "e", "fu", "ga", "ge", "gi", "go", "gu", "gya",
-  "gyo", "gyu", "ha", "he", "hi", "ho", "hya", "hyo", "hyu", "i", "ja", "ji",
-  "jo", "ju", "ka", "ke", "ki", "ko", "ku", "kya", "kyo", "kyu", "ma", "me",
-  "mi", "mo", "mu", "mya", "myo", "myu", "*", "na", "ne", "ni", "no", "nu",
-  "nya", "nyo", "nyu", "o", "pa", "pe", "pi", "po", "pu", "pya", "pyo", "pyu",
-  "ra", "re", "ri", "ro", "ru", "rya", "ryo", "ryu", "sa", "se", "sha", "shi",
-  "sho", "shu", "so", "su", "ta", "te", "to", "tsu", "u", "wa", "ya", "yo",
-  "yu", "za", "ze", "zo", "zu", "n"
-};
-static size_t fmne_syl_count = 101;
-static size_t fmne_n = 54;
+static size_t fmne_syl_count = 100;
 
 static char *fmne_neg = "wi";
 
@@ -94,20 +89,19 @@ fmne_toi_result fmne_to_i(char *s)
   {
     if (r.err || *s == '\0') break;
 
-    for (size_t i = 0; i < fmne_syl_count + 1; ++i)
+    for (size_t i = 0; i < fmne_syl_count; ++i)
     {
-      char *syl = fmne_syls_n[i];
+      char *syl = fmne_syls[i];
       size_t l = strlen(syl);
 
       if (strncmp(s, syl, l) == 0)
       {
         s = s + l;
-        r.result =
-          fmne_syl_count * r.result + (i == fmne_syl_count) ? fmne_n : i;
+        r.result = fmne_syl_count * r.result + i;
         break;
       }
 
-      if (i == fmne_syl_count) { r.err = 1; r.result = 0; }
+      if (i == fmne_syl_count - 1) { r.err = 1; r.result = 0; }
     }
   }
 
