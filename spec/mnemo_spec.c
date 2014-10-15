@@ -14,20 +14,20 @@ context "mnemo"
   {
     it "turns positive integers to mnemo strings"
     {
-      expect(fmne_to_s(0) ===f "a");
-      expect(fmne_to_s(1) ===f "i");
-      expect(fmne_to_s(99) ===f "n");
-      expect(fmne_to_s(100) ===f "ia");
-      expect(fmne_to_s(101) ===f "ii");
-      expect(fmne_to_s(392406) ===f "futeki");
-      expect(fmne_to_s(25437225) ===f "tomijito");
+      expect(fmne_to_s(0) ===f "ba");
+      expect(fmne_to_s(1) ===f "bi");
+      expect(fmne_to_s(99) ===f "zo");
+      expect(fmne_to_s(100) ===f "biba");
+      expect(fmne_to_s(101) ===f "bibi");
+      expect(fmne_to_s(392406) ===f "kogochi");
+      expect(fmne_to_s(25437225) ===f "haleshuha");
     }
 
     it "turns negative integers to mnemo strings"
     {
-      expect(fmne_to_s(-1) ===f "wii");
-      expect(fmne_to_s(-99) ===f "win");
-      expect(fmne_to_s(-100) ===f "wiia");
+      expect(fmne_to_s(-1) ===f "xabi");
+      expect(fmne_to_s(-99) ===f "xazo");
+      expect(fmne_to_s(-100) ===f "xabiba");
     }
   }
 
@@ -38,22 +38,22 @@ context "mnemo"
       expect(fmne_to_i("blah blah blah").err == 1);
       expect(fmne_to_i("blah blah blah").result == 0);
 
-      expect(fmne_to_i("wibawiba").err == 1);
-      expect(fmne_to_i("wibawiba").result == 0);
+      expect(fmne_to_i("xabixabi").err == 1);
+      expect(fmne_to_i("xabixabi").result == 0);
     }
 
     it "turns mnemo strings to integers"
     {
       expect(fmne_to_i("yoshida").err == 0);
-      expect(fmne_to_i("yoshida").result == 531476);
+      expect(fmne_to_i("yoshida").result == 947110);
 
       expect(fmne_to_i("bajo").err == 0);
-      expect(fmne_to_i("bajo").result == 8382);
-      expect(fmne_to_i("wibaji").err == 0);
-      expect(fmne_to_i("wibaji").result == -8372);
+      expect(fmne_to_i("bajo").result == 34);
+      expect(fmne_to_i("xabaji").err == 0);
+      expect(fmne_to_i("xabaji").result == -31);
 
-      expect(fmne_to_i("tonkatsu").err == 0);
-      expect(fmne_to_i("tonkatsu").result == 25990523);
+      expect(fmne_to_i("tonukatsu").err == 0);
+      expect(fmne_to_i("tonukatsu").result == 79523582);
     }
   }
 
@@ -76,11 +76,11 @@ context "mnemo"
       l = fmne_to_i(s).result;
       expect(fmne_to_s(l) ===f s);
 
-      s = "katsudon";
+      s = "katsudonu";
       l = fmne_to_i(s).result;
       expect(fmne_to_s(l) ===f s);
 
-      s = "win";
+      s = "xazo";
       l = fmne_to_i(s).result;
       expect(fmne_to_s(l) ===f s);
     }
@@ -105,7 +105,7 @@ context "mnemo"
   {
     it "returns 1 if the string is a mnemo string"
     {
-      expect(fmne_is_mnemo("tonkatsu") == 1);
+      expect(fmne_is_mnemo("tonukatsu") == 1);
     }
 
     it "returns 0 else"
