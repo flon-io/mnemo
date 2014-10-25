@@ -3,7 +3,7 @@
 
 A port of [rufus-mnemo](https://github.com/jmettraux/rufus-mnemo) to C.
 
-Unlike rufus-mnemo doesn't limit itself to japanese kana and uses that array:
+Unlike rufus-mnemo, it doesn't limit itself to japanese kana, it uses that array:
 
 ```c
 static char *fmne_syls[] = {
